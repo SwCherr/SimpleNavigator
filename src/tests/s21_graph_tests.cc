@@ -50,10 +50,10 @@
 //   expected_matrix[4][3] = 1;
 //   expected_matrix[4][4] = 1;
 
-//   // received
-//   s21::Graph graph;
-//   graph.LoadGraphFromFile("examples/valid_matrix.txt");
-//   s21::Graph::matrix_uint32_t received_matrix = graph.GetMatrix();
+  // // received
+  // s21::Graph graph;
+  // graph.LoadGraphFromFile("examples/valid_matrix.txt");
+  // s21::Graph::matrix_uint32_t received_matrix = graph.GetMatrix();
 
 //   // test
 //   EXPECT_EQ(graph.GetSize(), 5);

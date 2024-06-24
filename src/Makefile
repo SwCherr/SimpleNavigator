@@ -47,7 +47,7 @@ $(DIR_OBJ)/%.o: $(DIR_CORE)/%.cc
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-tests: core_test
+tests: clean core_test
 
 # BUILD CORE TESTS
 core_test: $(TEST_EXECUTABLE)
