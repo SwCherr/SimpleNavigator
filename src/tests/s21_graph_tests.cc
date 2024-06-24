@@ -16,3 +16,9 @@ TEST(Graph, ConstrucWithParams) {
   EXPECT_EQ(matrix[1][0], 0);
   EXPECT_EQ(matrix[1][1], 0);
 }
+
+TEST(Graph, LoadFromFile) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix.txt");
+  EXPECT_EQ(graph.GetSize(), 5);
+}
