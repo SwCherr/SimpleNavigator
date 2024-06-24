@@ -63,3 +63,9 @@ TEST(Graph, LoadFromFile) {
     }
   }
 }
+
+TEST(Graph, ExportGraphToDot) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix.txt");
+  graph.ExportGraphToDot("examples/dot_matr.txt");
+}

@@ -60,7 +60,7 @@ void Graph::ExportGraphToDot(const std::string &filename) {
   }
 
   if (directed_) {
-    output << "directed graph {\n";
+    output << "digraph {\n";
   } else {
     output << "graph {\n";
   }
@@ -68,9 +68,11 @@ void Graph::ExportGraphToDot(const std::string &filename) {
   for (size_t row = 0; row < size_; ++row) {
     for (size_t col = 0; col < size_; ++col) {
       output << "\t" << row + 1;
-      std::string direction = directed_ ? " -> " : " -- ";
+      std::string direction =
+          adjacency_matrix_[row][col] == adjacency_matrix_[col][row] ? " -- "
+                                                                     : " -> ";
       output << direction;
-      output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "]\n;";
+      output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "];\n";
     }
   }
   output << "}\n";
