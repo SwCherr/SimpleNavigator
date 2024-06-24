@@ -9,13 +9,13 @@ namespace s21 {
 class Graph {
 public:
   using string = std::string;
-  using matrix = std::vector<std::vector<uint32_t>>;
+  using matrix_uint32_t = std::vector<std::vector<uint32_t>>;
 
   Graph();
   Graph(size_t size);
 
-  uint32_t GetSize() const noexcept { return size_; }
-  matrix GetMatrix() const noexcept { return adjacency_matrix_; }
+  size_t GetSize() const noexcept { return size_; }
+  matrix_uint32_t GetMatrix() const noexcept { return adjacency_matrix_; }
 
   void LoadGraphFromFile(string filename);
   void ExportGraphToDot(string filename);
@@ -27,7 +27,7 @@ public:
 
 private:
   size_t size_;
-  matrix adjacency_matrix_;
+  matrix_uint32_t adjacency_matrix_;
   bool directed_;
   bool weighted_;
 };
