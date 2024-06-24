@@ -18,7 +18,7 @@ Graph::Graph(size_t size) : size_(size), directed_(false), weighted_(false) {
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
 }
 
-void Graph::LoadGraphFromFile(string filename) {
+void Graph::LoadGraphFromFile(std::string filename) {
   std::ifstream input(filename);
   if (!input) {
     throw std::invalid_argument("No such file.\n");
@@ -47,8 +47,9 @@ void Graph::LoadGraphFromFile(string filename) {
   input.close();
 }
 
-void Graph::ExportGraphToDot(string filename) {
+void Graph::ExportGraphToDot(std::string filename) {
   std::ofstream output;
+  output.open(filename);
 
   if (output.is_open() == false) {
     throw std::logic_error("Couldn't open file.");
@@ -63,7 +64,7 @@ void Graph::ExportGraphToDot(string filename) {
   for (size_t row = 0; row < size_; ++row) {
     for (size_t col = 0; col < size_; ++col) {
       output << "\t" << row + 1;
-      string direction = directed_ ? " -> " : " -- ";
+      std::string direction = directed_ ? " -> " : " -- ";
       output << direction;
       output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "]\n;";
     }
@@ -73,7 +74,7 @@ void Graph::ExportGraphToDot(string filename) {
   output.close();
 }
 
-void Graph::SaveGraphToFile(string filename) {
+void Graph::SaveGraphToFile(std::string filename) {
   std::ofstream output;
   output.open(filename);
 
@@ -90,6 +91,23 @@ void Graph::SaveGraphToFile(string filename) {
   }
 
   output.close();
+}
+
+bool Graph::GraphIsDirected() {
+  size_t edges_count = 0;
+  size_t reverse_edjes_count = 0;
+
+  for (size_t row = 0; row != size_; ++row) {
+    for (size_t col = 0; col != size_; ++col) {
+      if (adjacency_matrix_[row][col]) {
+        ++edges_count;
+        if (adjacency_matrix_[row][col] == adjacency_matrix_[col][row]) {
+          ++reverse_edjes_count;
+        }
+      }
+    }
+  }
+  return edges_count != reverse_edjes_count;
 }
 
 bool Graph::GraphIsFull() {
