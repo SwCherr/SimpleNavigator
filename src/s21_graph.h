@@ -17,15 +17,15 @@ public:
   size_t GetSize() const noexcept { return size_; }
   matrix_uint32_t GetMatrix() const noexcept { return adjacency_matrix_; }
 
-  void LoadGraphFromFile(string filename);
-  void ExportGraphToDot(string filename);
+  void LoadGraphFromFile(const string filename);
+  void SaveGraphToFile(const string filename);
+  void ExportGraphToDot(const string filename);
 
+private:
   bool GraphIsDirected();
   bool GraphIsFull();
   bool GraphIsWeighted();
-  void SaveGraphToFile(string filename);
 
-private:
   size_t size_;
   matrix_uint32_t adjacency_matrix_;
   bool directed_;
