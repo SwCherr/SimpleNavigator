@@ -8,6 +8,7 @@ namespace s21 {
 class GraphAlgorithms {
 public:
   int GetShortestPathBetweenVertices(s21::Graph &graph, int vertex1, int vertex2);
+  bool CheckCorrectVertex(int vertex1, int vertex2, int size);
 };
 
 }
