@@ -2,6 +2,7 @@
 
 #include <_types/_uint32_t.h>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 
@@ -18,36 +19,39 @@ Graph::Graph(size_t size) : size_(size), directed_(false), weighted_(false) {
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
 }
 
-void Graph::LoadGraphFromFile(std::string filename) {
+void Graph::LoadGraphFromFile(const std::string &filename) {
   std::ifstream input(filename);
   if (!input) {
-    throw std::invalid_argument("No such file.\n");
+    throw std::runtime_error("Failed to open file.");
   }
 
-  size_t size, tmp;
-  input >> size;
-  Graph result(size);
+  input >> size_;
+  if (input.fail() || size_ < 1) {
+    throw std::runtime_error("Failed to read size of graph.");
+  }
 
-  for (size_t col = 0; col != size; ++col) {
-    for (size_t row = 0; row != size; ++row) {
-      if (!input.eof()) {
-        input >> tmp;
+  adjacency_matrix_.clear();
+  adjacency_matrix_.resize(size_, std::vector<uint32_t>(size_));
+
+  size_t tmp;
+  for (size_t row = 0; row < size_; ++row) {
+    for (size_t col = 0; col < size_; ++col) {
+      if (input >> tmp) {
         if (tmp > 1) {
           weighted_ = true;
         }
         adjacency_matrix_[row][col] = tmp;
       } else {
-        throw std::length_error("Not enough data in the file");
+        throw std::runtime_error("Failed to read data from file.");
       }
     }
   }
 
   directed_ = GraphIsDirected();
-
   input.close();
 }
 
-void Graph::ExportGraphToDot(std::string filename) {
+void Graph::ExportGraphToDot(const std::string &filename) {
   std::ofstream output;
   output.open(filename);
 
@@ -56,7 +60,7 @@ void Graph::ExportGraphToDot(std::string filename) {
   }
 
   if (directed_) {
-    output << "directed graph {\n";
+    output << "digraph {\n";
   } else {
     output << "graph {\n";
   }
@@ -64,9 +68,11 @@ void Graph::ExportGraphToDot(std::string filename) {
   for (size_t row = 0; row < size_; ++row) {
     for (size_t col = 0; col < size_; ++col) {
       output << "\t" << row + 1;
-      std::string direction = directed_ ? " -> " : " -- ";
+      std::string direction =
+          adjacency_matrix_[row][col] == adjacency_matrix_[col][row] ? " -- "
+                                                                     : " -> ";
       output << direction;
-      output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "]\n;";
+      output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "];\n";
     }
   }
   output << "}\n";
@@ -74,7 +80,7 @@ void Graph::ExportGraphToDot(std::string filename) {
   output.close();
 }
 
-void Graph::SaveGraphToFile(std::string filename) {
+void Graph::SaveGraphToFile(const std::string &filename) {
   std::ofstream output;
   output.open(filename);
 
