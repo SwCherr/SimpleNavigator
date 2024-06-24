@@ -30,11 +30,12 @@ void Graph::LoadGraphFromFile(const std::string &filename) {
     throw std::runtime_error("Failed to read size of graph.");
   }
 
+  adjacency_matrix_.clear();
   adjacency_matrix_.resize(size_, std::vector<uint32_t>(size_));
 
   size_t tmp;
-  for (size_t col = 0; col < size_; ++col) {
-    for (size_t row = 0; row < size_; ++row) {
+  for (size_t row = 0; row < size_; ++row) {
+    for (size_t col = 0; col < size_; ++col) {
       if (input >> tmp) {
         if (tmp > 1) {
           weighted_ = true;
