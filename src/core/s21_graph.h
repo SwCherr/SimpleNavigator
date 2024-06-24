@@ -25,6 +25,8 @@ public:
   bool GraphIsFull();
   bool GraphIsWeighted();
 
+  void PrintMatrixGraph();
+
 private:
   size_t size_;
   matrix_uint32_t adjacency_matrix_;

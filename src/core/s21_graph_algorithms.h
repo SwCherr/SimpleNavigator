@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "s21_graph.h"
+#define MAX_VALUE UINT_MAX
 
 namespace s21 {
   

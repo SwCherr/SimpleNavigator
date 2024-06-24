@@ -7,6 +7,16 @@
 #include <vector>
 
 namespace s21 {
+
+void Graph::PrintMatrixGraph() {
+  for(size_t i = 0; i < size_; i++) {
+    for(size_t j = 0; j < size_; j++) {
+      printf("%d ", adjacency_matrix_[i][j]);
+    }
+    printf("\n");
+  }
+}
+
 Graph::Graph() : size_(1), directed_(false), weighted_(false) {
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
 }
