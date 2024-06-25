@@ -16,3 +16,14 @@ TEST(GraphAlgorithmsSearch, DepthFirstSearch_01) {
     EXPECT_EQ(expected_vector[i], result_vector[i]);
   }
 }
+
+TEST(GraphAlgorithmsSearch, BreadthFitstSeatch_01) {
+  s21::Graph graph;
+  s21::GraphAlgorithms graphAlgorithms;
+  graph.LoadGraphFromFile("examples/graph_algorithm.txt");
+  std::vector<uint32_t> expected_vector = {4, 1, 3, 5, 2};
+  auto result_vector = graphAlgorithms.BreadthFitstSeatch(graph, 4);
+  for (size_t i = 0; i < expected_vector.size(); ++i) {
+    EXPECT_EQ(expected_vector[i], result_vector[i]);
+  }
+}

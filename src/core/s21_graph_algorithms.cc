@@ -55,8 +55,7 @@ vector<uint32_t> GraphAlgorithms::BreadthFitstSeatch(const Graph &graph,
     }
 
     for (size_t i = 0; i < graph.GetSize(); ++i) {
-      if ((matrix[current_vertex - 1][i] > 0) && (visited[i + 1] == false)) {
-        visited[i] = true;
+      if ((matrix[current_vertex - 1][i] > 0) && (!visited[i + 1])) {
         queue.push(i + 1);
       }
     }
@@ -77,12 +76,12 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph, size_t from,
   size_t size = graph.GetSize();
   AdjacencyMatrixPrepare(adjacency_matrix, graph.GetSize());
 
-  vector <size_t> minimum_distance(size, INF);
-  minimum_distance[from-1] = 0;
+  vector<size_t> minimum_distance(size, INF);
+  minimum_distance[from - 1] = 0;
 
-  vector <bool> visit(size);
+  vector<bool> visit(size);
   size_t min_dist = 0;
-  int min_vertex = from-1;
+  int min_vertex = from - 1;
 
   while (min_dist < INF) {
     int i = min_vertex;
@@ -100,7 +99,7 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph, size_t from,
       }
     }
   }
-  return minimum_distance[to-1];
+  return minimum_distance[to - 1];
 }
 
 GraphAlgorithms::matrix_uint32_t
