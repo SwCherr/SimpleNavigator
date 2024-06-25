@@ -73,6 +73,17 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph) {
 }
 
 TEST(GraphAlgorithms,
+     GetShortestPathBetweenVertices_FromEqWeightsGraph_From1To4) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_eq_weights.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  int expected_res = 3;
+  int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 4);
+  EXPECT_EQ(res, expected_res);
+}
+
+TEST(GraphAlgorithms,
      GetShortestPathBetween_OutOfRange_Vertices_FromValidMatrix) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix.txt");
