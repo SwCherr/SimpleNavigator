@@ -55,3 +55,29 @@ int s21::GraphAlgorithms::GetShortestPathBetweenVertices(s21::Graph &graph, int 
 bool s21::GraphAlgorithms::CheckCorrectVertex(int vertex1, int vertex2, int size) {
   return vertex1 < 0 && vertex2 < 0 && vertex1 > size && vertex2 > size;
 }
+
+s21::GraphAlgorithms::matrix_uint32_t s21::GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+  matrix_uint32_t matrix = graph.GetMatrix();
+  AdjacencyMatrixPrepare(matrix, graph.GetSize());
+  for(size_t k = 0; k < graph.GetSize(); k++) {
+    for(size_t i = 0; i < graph.GetSize(); i++) {
+      for(size_t j = 0; j < graph.GetSize(); j++) {
+        matrix[i][j] = std::min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+      }
+    }
+  }
+  return matrix;
+}
+
+void s21::GraphAlgorithms::AdjacencyMatrixPrepare(s21::GraphAlgorithms::matrix_uint32_t &adjacency_matrix, size_t size) {
+  for(size_t i = 0; i < size; i++) {
+    for(size_t j = 0; j < size; j++) {
+      if (i == j) {
+        adjacency_matrix[i][j] = 0;
+      } else if (adjacency_matrix[i][j] == 0) {
+        adjacency_matrix[i][j] = MAX_VALUE;
+      }
+    }
+  }
+
+}
