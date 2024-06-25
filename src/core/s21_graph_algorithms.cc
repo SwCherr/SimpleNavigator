@@ -1,7 +1,8 @@
 #include "s21_graph_algorithms.h"
 #include <cmath>
-#include <stdexcept>
+#include <cstring>
 #include <iostream>
+#include <stdexcept>
 
 int s21::GraphAlgorithms::GetShortestPathBetweenVertices(s21::Graph &graph,
                                                          size_t from,
@@ -56,7 +57,8 @@ int s21::GraphAlgorithms::GetShortestPathBetweenVertices(s21::Graph &graph,
   return minimum_distance[to - 1];
 }
 
-s21::GraphAlgorithms::matrix_uint32_t s21::GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+s21::GraphAlgorithms::matrix_uint32_t
+s21::GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
   matrix_uint32_t matrix = graph.GetMatrix();
   AdjacencyMatrixPrepare(matrix, graph.GetSize());
   for (size_t k = 0; k < graph.GetSize(); k++) {
@@ -82,17 +84,18 @@ void s21::GraphAlgorithms::AdjacencyMatrixPrepare(
   }
 }
 
-s21::GraphAlgorithms::matrix_uint32_t s21::GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
+s21::GraphAlgorithms::matrix_uint32_t
+s21::GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
   size_t size = graph.GetSize();
   matrix_uint32_t matrix = graph.GetMatrix();
   matrix_uint32_t matrix_res(size, std::vector<uint32_t>(size));
   AdjacencyMatrixPrepare(matrix, size);
 
-  size_t no_edge = 0;           
+  size_t no_edge = 0;
   int selected[size];
-  memset(selected, false, sizeof (selected));
-  selected[0] = true;  // choose 0th vertex and make it true
- 
+  memset(selected, false, sizeof(selected));
+  selected[0] = true; // choose 0th vertex and make it true
+
   size_t x, y;
   while (no_edge < size - 1) {
     size_t min = MAX_VALUE;
@@ -116,6 +119,5 @@ s21::GraphAlgorithms::matrix_uint32_t s21::GraphAlgorithms::GetLeastSpanningTree
     selected[y] = true;
     no_edge++;
   }
- return matrix_res;
+  return matrix_res;
 }
-

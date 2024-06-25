@@ -75,11 +75,22 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph) {
 TEST(GraphAlgorithms,
      GetShortestPathBetweenVertices_FromEqWeightsGraph_From1To4) {
   s21::Graph graph;
-  graph.LoadGraphFromFile("examples/valid_matrix_eq_weights.txt");
+  graph.LoadGraphFromFile("examples/matrix_eq_weights_from1to4.txt");
 
   s21::GraphAlgorithms graph_alg;
   int expected_res = 3;
   int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 4);
+  EXPECT_EQ(res, expected_res);
+}
+
+TEST(GraphAlgorithms,
+     GetShortestPathBetweenVertices_FromEqWeightsGraph_From1To5) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/matrix_eq_weights_from1to5.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  int expected_res = 5;
+  int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 5);
   EXPECT_EQ(res, expected_res);
 }
 
@@ -158,15 +169,17 @@ TEST(GraphAlgorithms, GetLeastSpanningTree_FromFile_1) {
   size_t size = graph.GetSize();
 
   s21::GraphAlgorithms graph_alg;
-  s21::GraphAlgorithms::matrix_uint32_t res_matrix = graph_alg.GetLeastSpanningTree(graph);
-  s21::GraphAlgorithms::matrix_uint32_t check_matrix(size, std::vector<uint32_t>(size));
+  s21::GraphAlgorithms::matrix_uint32_t res_matrix =
+      graph_alg.GetLeastSpanningTree(graph);
+  s21::GraphAlgorithms::matrix_uint32_t check_matrix(
+      size, std::vector<uint32_t>(size));
 
   check_matrix[0][0] = 0;
   check_matrix[0][1] = 9;
   check_matrix[0][2] = 0;
   check_matrix[0][3] = 0;
   check_matrix[0][4] = 0;
-  
+
   check_matrix[1][0] = 0;
   check_matrix[1][1] = 0;
   check_matrix[1][2] = 0;
