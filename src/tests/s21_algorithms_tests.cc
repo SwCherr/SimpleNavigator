@@ -77,8 +77,10 @@ TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   size_t size = graph.GetSize();
 
   s21::GraphAlgorithms graph_alg;
-  s21::GraphAlgorithms::matrix_uint32_t res_matrix = graph_alg.GetShortestPathsBetweenAllVertices(graph);
-  s21::GraphAlgorithms::matrix_uint32_t check_matrix(size, std::vector<uint32_t>(size));
+  s21::GraphAlgorithms::matrix_uint32_t res_matrix =
+      graph_alg.GetShortestPathsBetweenAllVertices(graph);
+  s21::GraphAlgorithms::matrix_uint32_t check_matrix(
+      size, std::vector<uint32_t>(size));
 
   check_matrix[0][0] = 0;
   check_matrix[0][1] = 7;
@@ -86,7 +88,7 @@ TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   check_matrix[0][3] = 20;
   check_matrix[0][4] = 20;
   check_matrix[0][5] = 11;
-  
+
   check_matrix[1][0] = 7;
   check_matrix[1][1] = 0;
   check_matrix[1][2] = 10;
@@ -121,7 +123,6 @@ TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   check_matrix[5][3] = 13;
   check_matrix[5][4] = 9;
   check_matrix[5][5] = 0;
-
 
   // for (size_t i = 0; i < size; i++) {
   //   for (size_t j = 0; j < size; j++) {
