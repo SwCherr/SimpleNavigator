@@ -16,7 +16,7 @@ public:
   using matrix_uint32_t = vector<std::vector<uint32_t>>;
 
   vector<uint32_t> DepthFirstSearch(const Graph &graph, uint32_t start_vertex);
-  vector<uint32_t> BreadthFitstSeatch(const Graph &graph,
+  vector<uint32_t> BreadthFitstSearch(const Graph &graph,
                                       uint32_t start_vertex);
 
   int GetShortestPathBetweenVertices(Graph &graph, size_t from, size_t to);

@@ -37,7 +37,7 @@ vector<uint32_t> GraphAlgorithms::DepthFirstSearch(const Graph &graph,
   return result;
 }
 
-vector<uint32_t> GraphAlgorithms::BreadthFitstSeatch(const Graph &graph,
+vector<uint32_t> GraphAlgorithms::BreadthFitstSearch(const Graph &graph,
                                                      uint32_t start_vertex) {
   matrix_uint32_t matrix = graph.GetMatrix();
   vector<uint32_t> result;
