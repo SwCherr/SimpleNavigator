@@ -64,6 +64,16 @@ TEST(Graph, LoadFromFile) {
   }
 }
 
+TEST(Graph, LoadFromNotExistFile) {
+  s21::Graph graph;
+  EXPECT_ANY_THROW(graph.LoadGraphFromFile("exam/exam"));
+}
+
+TEST(Graph, LoadFromIncorrectFile) {
+  s21::Graph graph;
+  EXPECT_ANY_THROW(graph.LoadGraphFromFile("examples/invalid_matrix.txt"));
+}
+
 TEST(Graph, ExportGraphToDot) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix.txt");
