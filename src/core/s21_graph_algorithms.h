@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <vector>
 
-#define MAX_VALUE INT_MAX
+// #define MAX_VALUE INT_MAX
+#define INF 1000000000
 
 namespace s21 {
 using std::vector;
