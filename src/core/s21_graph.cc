@@ -4,13 +4,14 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <sys/_types/_int64_t.h>
 #include <vector>
 
 namespace s21 {
 
 void Graph::PrintMatrixGraph() {
-  for(size_t i = 0; i < size_; i++) {
-    for(size_t j = 0; j < size_; j++) {
+  for (size_t i = 0; i < size_; i++) {
+    for (size_t j = 0; j < size_; j++) {
       printf("%d ", adjacency_matrix_[i][j]);
     }
     printf("\n");
@@ -43,11 +44,13 @@ void Graph::LoadGraphFromFile(const std::string &filename) {
   adjacency_matrix_.clear();
   adjacency_matrix_.resize(size_, std::vector<uint32_t>(size_));
 
-  size_t tmp;
+  int64_t tmp;
   for (size_t row = 0; row < size_; ++row) {
     for (size_t col = 0; col < size_; ++col) {
       if (input >> tmp) {
-        if (tmp > 1) {
+        if (tmp < 0) {
+          throw std::out_of_range(filename + "constraint negative value!");
+        } else if (tmp > 1) {
           weighted_ = true;
         }
         adjacency_matrix_[row][col] = tmp;

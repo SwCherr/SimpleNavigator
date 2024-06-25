@@ -62,6 +62,15 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_WhithLoop) {
   EXPECT_EQ(res, res_check);
 }
 
+TEST(GraphAlgorithms,
+     GetShortestPathBetweenOutOfRangeVertices_FromValidMatrix) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  EXPECT_ANY_THROW(graph_alg.GetShortestPathBetweenVertices(graph, 8, 5));
+}
+
 TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
