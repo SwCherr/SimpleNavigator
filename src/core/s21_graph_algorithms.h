@@ -1,4 +1,5 @@
 #include "s21_graph.h"
+#include <_types/_uint32_t.h>
 #include <climits>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +14,9 @@ class GraphAlgorithms {
 public:
   using matrix_uint32_t = vector<std::vector<uint32_t>>;
 
-  vector<uint32_t> DepthFirstSearch(const Graph &graph, size_t start_vertex);
-  vector<uint32_t> BreadthFitstSeatch(const Graph &graph, size_t start_vertex);
+  vector<uint32_t> DepthFirstSearch(const Graph &graph, uint32_t start_vertex);
+  vector<uint32_t> BreadthFitstSeatch(const Graph &graph,
+                                      uint32_t start_vertex);
 
   int GetShortestPathBetweenVertices(Graph &graph, size_t from, size_t to);
   matrix_uint32_t GetShortestPathsBetweenAllVertices(Graph &graph);

@@ -1,11 +1,69 @@
 #include "s21_graph_algorithms.h"
+#include <_types/_uint32_t.h>
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <queue> //TODO replace to s21::deque
+#include <stack> //TODO replace to s21::stack
 #include <stdexcept>
 
 namespace s21 {
 using std::vector;
+
+vector<uint32_t> GraphAlgorithms::DepthFirstSearch(const Graph &graph,
+                                                   uint32_t start_vertex) {
+  matrix_uint32_t matrix = graph.GetMatrix();
+  vector<uint32_t> result;
+  vector<bool> visited(graph.GetSize() + 1, false);
+  std::stack<uint32_t> stack;
+  stack.push(start_vertex);
+
+  while (stack.empty() == false) {
+    uint32_t current_vertex = stack.top();
+    stack.pop();
+
+    if (visited[current_vertex] == false) {
+      result.push_back(current_vertex);
+      visited[current_vertex] = true;
+    }
+
+    for (int64_t i = graph.GetSize() - 1; i >= 0; --i) {
+      if ((matrix[current_vertex - 1][i] > 0) && (!visited[i + 1])) {
+        stack.push(i + 1);
+      }
+    }
+  }
+
+  return result;
+}
+
+vector<uint32_t> GraphAlgorithms::BreadthFitstSeatch(const Graph &graph,
+                                                     uint32_t start_vertex) {
+  matrix_uint32_t matrix = graph.GetMatrix();
+  vector<uint32_t> result;
+  vector<bool> visited(graph.GetSize(), false);
+  std::queue<uint32_t> queue;
+  queue.push(start_vertex);
+
+  while (queue.empty() == false) {
+    uint32_t current_vertex = queue.front();
+    queue.pop();
+
+    if (visited[current_vertex] == false) {
+      result.push_back(current_vertex);
+      visited[current_vertex] = true;
+    }
+
+    for (size_t i = 0; i < graph.GetSize(); ++i) {
+      if ((matrix[current_vertex - 1][i] > 0) && (visited[i + 1] == false)) {
+        visited[i] = true;
+        queue.push(i + 1);
+      }
+    }
+  }
+
+  return result;
+}
 
 int GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph, size_t from,
                                                     size_t to) {
