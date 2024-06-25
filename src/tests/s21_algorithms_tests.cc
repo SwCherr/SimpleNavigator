@@ -62,13 +62,43 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_WhithLoop) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_4) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  int expected_res = 3;
+  int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 4);
+  EXPECT_EQ(res, expected_res);
+}
+
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_5) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  int expected_res = 2;
+  int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 5);
+  EXPECT_EQ(res, expected_res);
+}
+
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_6) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
 
   s21::GraphAlgorithms graph_alg;
   int expected_res = 4;
   int res = graph_alg.GetShortestPathBetweenVertices(graph, 1, 6);
+  EXPECT_EQ(res, expected_res);
+}
+
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_2_3_NoPath) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  int expected_res = INF;
+  int res = graph_alg.GetShortestPathBetweenVertices(graph, 2, 3);
   EXPECT_EQ(res, expected_res);
 }
 

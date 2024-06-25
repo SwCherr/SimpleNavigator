@@ -14,10 +14,10 @@ TEST(Graph, ConstrucWithParams) {
   size_t expected_size = 2;
 
   EXPECT_EQ(graph.GetSize(), expected_size);
-  EXPECT_EQ(matrix[0][0], 0);
-  EXPECT_EQ(matrix[0][1], 0);
-  EXPECT_EQ(matrix[1][0], 0);
-  EXPECT_EQ(matrix[1][1], 0);
+  EXPECT_EQ(matrix[0][0], (size_t)0);
+  EXPECT_EQ(matrix[0][1], (size_t)0);
+  EXPECT_EQ(matrix[1][0], (size_t)0);
+  EXPECT_EQ(matrix[1][1], (size_t)0);
 }
 
 TEST(Graph, LoadFromFile) {
