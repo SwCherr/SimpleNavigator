@@ -4,16 +4,18 @@
 #include <iostream>
 #include <stdexcept>
 
-int s21::GraphAlgorithms::GetShortestPathBetweenVertices(s21::Graph &graph,
-                                                         size_t from,
-                                                         size_t to) {
+namespace s21 {
+using std::vector;
+
+int GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph, size_t from,
+                                                    size_t to) {
   if (from > graph.GetSize() || to > graph.GetSize()) {
     throw std::out_of_range("Invalid values for vertexes");
   } else if (from == to) {
     return graph.GetMatrix()[from - 1][to - 1];
   }
 
-  Graph::matrix_uint32_t adjacency_matrix = graph.GetMatrix(); // матрица связей
+  matrix_uint32_t adjacency_matrix = graph.GetMatrix(); // матрица связей
   size_t size = graph.GetSize();
   int minimum_distance[size]; // минимальное расстояние
   int visit[size];            // посещенные вершины
@@ -57,8 +59,8 @@ int s21::GraphAlgorithms::GetShortestPathBetweenVertices(s21::Graph &graph,
   return minimum_distance[to - 1];
 }
 
-s21::GraphAlgorithms::matrix_uint32_t
-s21::GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+GraphAlgorithms::matrix_uint32_t
+GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
   matrix_uint32_t matrix = graph.GetMatrix();
   AdjacencyMatrixPrepare(matrix, graph.GetSize());
   for (size_t k = 0; k < graph.GetSize(); k++) {
@@ -71,8 +73,8 @@ s21::GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
   return matrix;
 }
 
-void s21::GraphAlgorithms::AdjacencyMatrixPrepare(
-    s21::GraphAlgorithms::matrix_uint32_t &adjacency_matrix, size_t size) {
+void GraphAlgorithms::AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix,
+                                             size_t size) {
   for (size_t i = 0; i < size; i++) {
     for (size_t j = 0; j < size; j++) {
       if (i == j) {
@@ -84,8 +86,8 @@ void s21::GraphAlgorithms::AdjacencyMatrixPrepare(
   }
 }
 
-s21::GraphAlgorithms::matrix_uint32_t
-s21::GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
+GraphAlgorithms::matrix_uint32_t
+GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
   size_t size = graph.GetSize();
   matrix_uint32_t matrix = graph.GetMatrix();
   matrix_uint32_t matrix_res(size, std::vector<uint32_t>(size));
@@ -121,3 +123,5 @@ s21::GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
   }
   return matrix_res;
 }
+
+} // namespace s21
