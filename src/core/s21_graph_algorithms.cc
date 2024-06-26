@@ -1,10 +1,10 @@
 #include "s21_graph_algorithms.h"
+#include "container_adaptors/s21_queue.h"
+#include "container_adaptors/s21_stack.h"
 #include <_types/_uint32_t.h>
 #include <cmath>
 #include <cstring>
 #include <iostream>
-#include <queue> //TODO replace to s21::deque
-#include <stack> //TODO replace to s21::stack
 #include <stdexcept>
 
 namespace s21 {
@@ -15,7 +15,7 @@ vector<uint32_t> GraphAlgorithms::DepthFirstSearch(const Graph &graph,
   matrix_uint32_t matrix = graph.GetMatrix();
   vector<uint32_t> result;
   vector<bool> visited(graph.GetSize() + 1, false);
-  std::stack<uint32_t> stack;
+  stack<uint32_t> stack;
   stack.push(start_vertex);
 
   while (stack.empty() == false) {
@@ -42,7 +42,7 @@ vector<uint32_t> GraphAlgorithms::BreadthFitstSearch(const Graph &graph,
   matrix_uint32_t matrix = graph.GetMatrix();
   vector<uint32_t> result;
   vector<bool> visited(graph.GetSize(), false);
-  std::queue<uint32_t> queue;
+  queue<uint32_t> queue;
   queue.push(start_vertex);
 
   while (queue.empty() == false) {

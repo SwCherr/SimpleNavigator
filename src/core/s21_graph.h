@@ -1,5 +1,5 @@
-#ifndef A2_SIMPLENAVIGATOR_v1_0_CPP_S21_GRAPH_H_
-#define A2_SIMPLENAVIGATOR_v1_0_CPP_S21_GRAPH_H_
+#ifndef A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_
+#define A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_
 
 #include <_types/_uint32_t.h>
 #include <string>
@@ -35,4 +35,4 @@ private:
 };
 } // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_S21_GRAPH_H_
+#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_

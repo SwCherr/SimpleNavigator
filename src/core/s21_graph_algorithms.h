@@ -1,3 +1,6 @@
+#ifndef A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_ALGORITHMS_H_
+#define A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_ALGORITHMS_H_
+
 #include "s21_graph.h"
 #include <_types/_uint32_t.h>
 #include <climits>
@@ -28,3 +31,5 @@ private:
 };
 
 } // namespace s21
+
+#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_ALGORITHMS_H_
