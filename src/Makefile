@@ -37,7 +37,7 @@ TEST_EXECUTABLE = $(DIR_BUILD)/core_test
 all: $(CORE_LIB) core_test
 
 app :
-	g++ main.cc core/s21_graph.cc core/s21_graph_algorithms.cc controller/console_controller.cc view/s21_console_view.cc
+	g++ -std=c++17 -Wall -Wextra -Werror -g main.cc core/s21_graph.cc core/s21_graph_algorithms.cc controller/console_controller.cc view/s21_console_view.cc -o app
 
 core_lib: $(CORE_LIB)
 # BUILD CORE LIB
@@ -87,6 +87,7 @@ style_repair: clean
 	@find . -type f -name '*.cc' -or -name '*.h' | xargs -I {} sh -c 'echo "Checking {}" && clang-format -i -style=Google {}'
 
 clean:
+	rm -rf app app.*
 	rm -rf $(DIR_OBJ) $(DIR_BUILD)
 	rm -rf report
 	rm -rf *.tgz

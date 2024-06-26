@@ -9,7 +9,7 @@
 #include <vector>
 
 // #define MAX_VALUE INT_MAX
-#define INF 1000000000
+#define INF 1000060000
 
 namespace s21 {
 using std::vector;
