@@ -36,6 +36,9 @@ TEST_EXECUTABLE = $(DIR_BUILD)/core_test
 
 all: $(CORE_LIB) core_test
 
+app :
+	g++ main.cc core/s21_graph.cc core/s21_graph_algorithms.cc controller/console_controller.cc view/s21_console_view.cc
+
 core_lib: $(CORE_LIB)
 # BUILD CORE LIB
 $(CORE_LIB): $(OBJ)

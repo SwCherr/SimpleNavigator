@@ -64,8 +64,9 @@ vector<uint32_t> GraphAlgorithms::BreadthFitstSearch(const Graph &graph,
   return result;
 }
 
-int GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph, size_t from,
-                                                    size_t to) {
+size_t GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
+                                                       uint32_t from,
+                                                       uint32_t to) {
   if (from > graph.GetSize() || to > graph.GetSize()) {
     throw std::out_of_range("Invalid values for vertexes");
   } else if (from == to) {

@@ -22,7 +22,8 @@ public:
   vector<uint32_t> BreadthFitstSearch(const Graph &graph,
                                       uint32_t start_vertex);
 
-  int GetShortestPathBetweenVertices(Graph &graph, size_t from, size_t to);
+  size_t GetShortestPathBetweenVertices(Graph &graph, uint32_t from,
+                                        uint32_t to);
   matrix_uint32_t GetShortestPathsBetweenAllVertices(Graph &graph);
   matrix_uint32_t GetLeastSpanningTree(Graph &graph);
 

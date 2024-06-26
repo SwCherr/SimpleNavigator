@@ -13,6 +13,7 @@ public:
 
   Graph();
   Graph(size_t size);
+  Graph(const matrix_uint32_t &matrix);
 
   size_t GetSize() const noexcept { return size_; }
   matrix_uint32_t GetMatrix() const noexcept { return adjacency_matrix_; }

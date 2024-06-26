@@ -30,6 +30,26 @@ Graph::Graph(size_t size) : size_(size), directed_(false), weighted_(false) {
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
 }
 
+Graph::Graph(const matrix_uint32_t &matrix) {
+  if (matrix.front().size() != matrix.size()) {
+    throw std::runtime_error("Failed to construct graph from matrix.");
+  }
+
+  size_ = adjacency_matrix_.size();
+  adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
+  if (size_ != 0) {
+    for (size_t row = 0; row < size_; ++row) {
+      for (size_t col = 0; col < size_; ++col) {
+        auto value = matrix[row][col];
+        if (value > 1) {
+          weighted_ = true;
+        }
+        adjacency_matrix_[row][col] = value;
+      }
+    }
+  }
+}
+
 void Graph::LoadGraphFromFile(const std::string &filename) {
   std::ifstream input(filename);
   if (!input) {
