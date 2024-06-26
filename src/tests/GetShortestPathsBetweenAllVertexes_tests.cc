@@ -2,6 +2,27 @@
 #include "../core/s21_graph_algorithms.h"
 #include <gtest/gtest.h>
 
+TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_01) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/deep_graph.txt");
+
+  s21::GraphAlgorithms algorithms;
+
+  s21::Graph::matrix_uint32_t expected_matrix = {{0, 1, 1, 2},  // line - 1
+                                                 {0, 0, 0, 0},  // line - 2
+                                                 {0, 0, 0, 1},  // line - 3
+                                                 {0, 0, 0, 0}}; // line - 4
+                                                                //
+  s21::Graph::matrix_uint32_t result_matrix =
+      algorithms.GetShortestPathsBetweenAllVertices(graph);
+
+  for (size_t i = 0; i < graph.GetSize(); i++) {
+    for (size_t j = 0; j < graph.GetSize(); j++) {
+      EXPECT_EQ(expected_matrix[i][j], result_matrix[i][j]);
+    }
+  }
+}
+
 TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
