@@ -4,12 +4,10 @@
 #include "s21_graph.h"
 #include <_types/_uint32_t.h>
 #include <climits>
+#include <limits>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-
-// #define MAX_VALUE INT_MAX
-#define INF 1000060000
 
 namespace s21 {
 using std::vector;
@@ -17,6 +15,8 @@ using std::vector;
 class GraphAlgorithms {
 public:
   using matrix_uint32_t = vector<std::vector<uint32_t>>;
+
+  const uint32_t kMax = std::numeric_limits<uint32_t>::max();
 
   vector<uint32_t> DepthFirstSearch(const Graph &graph, uint32_t start_vertex);
   vector<uint32_t> BreadthFitstSearch(const Graph &graph,
@@ -28,6 +28,8 @@ public:
   matrix_uint32_t GetLeastSpanningTree(Graph &graph);
 
 private:
+  std::vector<std::vector<bool>>
+  ClosestPath(const matrix_uint32_t &adjacency_matrix);
   void AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix, size_t size);
 };
 

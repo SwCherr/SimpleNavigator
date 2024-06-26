@@ -1,6 +1,9 @@
 #include "../core/s21_graph.h"
 #include "../core/s21_graph_algorithms.h"
+#include <_types/_uint32_t.h>
+#include <cstdint>
 #include <gtest/gtest.h>
+#include <limits>
 
 TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_2) {
   s21::Graph graph;
@@ -98,7 +101,7 @@ TEST(GraphAlgorithms,
   graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
 
   s21::GraphAlgorithms graph_alg;
-  int expected_res = INF;
+  int expected_res = std::numeric_limits<uint32_t>::max();
   int res = graph_alg.GetShortestPathBetweenVertices(graph, 2, 3);
   EXPECT_EQ(res, expected_res);
 }

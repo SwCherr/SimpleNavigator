@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 
 namespace s21 {
@@ -12,6 +13,9 @@ using std::vector;
 
 vector<uint32_t> GraphAlgorithms::DepthFirstSearch(const Graph &graph,
                                                    uint32_t start_vertex) {
+  if (start_vertex == 0 || start_vertex > graph.GetSize()) {
+    throw std::out_of_range("Invalid values for start vertex");
+  }
   matrix_uint32_t matrix = graph.GetMatrix();
   vector<uint32_t> result;
   vector<bool> visited(graph.GetSize() + 1, false);
@@ -39,6 +43,9 @@ vector<uint32_t> GraphAlgorithms::DepthFirstSearch(const Graph &graph,
 
 vector<uint32_t> GraphAlgorithms::BreadthFitstSearch(const Graph &graph,
                                                      uint32_t start_vertex) {
+  if (start_vertex == 0 || start_vertex > graph.GetSize()) {
+    throw std::out_of_range("Invalid values for start vertex");
+  }
   matrix_uint32_t matrix = graph.GetMatrix();
   vector<uint32_t> result;
   vector<bool> visited(graph.GetSize(), false);
@@ -67,7 +74,8 @@ vector<uint32_t> GraphAlgorithms::BreadthFitstSearch(const Graph &graph,
 size_t GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
                                                        uint32_t from,
                                                        uint32_t to) {
-  if (from > graph.GetSize() || to > graph.GetSize()) {
+  if (from > graph.GetSize() || to > graph.GetSize() || from == 0 ||
+      to < from) {
     throw std::out_of_range("Invalid values for vertexes");
   } else if (from == to) {
     return graph.GetMatrix()[from - 1][to - 1];
@@ -77,21 +85,21 @@ size_t GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
   size_t size = graph.GetSize();
   AdjacencyMatrixPrepare(adjacency_matrix, graph.GetSize());
 
-  vector<size_t> minimum_distance(size, INF);
+  vector<size_t> minimum_distance(size, kMax);
   minimum_distance[from - 1] = 0;
 
   vector<bool> visit(size);
   size_t min_dist = 0;
   int min_vertex = from - 1;
 
-  while (min_dist < INF) {
+  while (min_dist < kMax) {
     int i = min_vertex;
     visit[i] = true;
     for (size_t j = 0; j < size; ++j) {
       if (minimum_distance[i] + adjacency_matrix[i][j] < minimum_distance[j])
         minimum_distance[j] = minimum_distance[i] + adjacency_matrix[i][j];
     }
-    min_dist = INF;
+    min_dist = kMax;
 
     for (size_t j = 0; j < size; ++j) {
       if (!visit[j] && minimum_distance[j] < min_dist) {
@@ -105,12 +113,23 @@ size_t GraphAlgorithms::GetShortestPathBetweenVertices(Graph &graph,
 
 GraphAlgorithms::matrix_uint32_t
 GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
+  size_t size = graph.GetSize();
   matrix_uint32_t matrix = graph.GetMatrix();
   AdjacencyMatrixPrepare(matrix, graph.GetSize());
-  for (size_t k = 0; k < graph.GetSize(); k++) {
-    for (size_t i = 0; i < graph.GetSize(); i++) {
-      for (size_t j = 0; j < graph.GetSize(); j++) {
-        matrix[i][j] = std::min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+  for (size_t k = 0; k < size; k++) {
+    for (size_t i = 0; i < size; i++) {
+      for (size_t j = 0; j < size; j++) {
+        if (matrix[i][j] > (matrix[i][k] + matrix[k][j]) &&
+            matrix[k][j] != kMax && matrix[i][k] != kMax) {
+          matrix[i][j] = matrix[i][k] + matrix[k][j];
+        }
+      }
+    }
+  }
+  for (size_t row = 0; row < size; ++row) {
+    for (size_t col = 0; col < size; ++col) {
+      if (matrix[row][col] == kMax) {
+        matrix[row][col] = 0;
       }
     }
   }
@@ -121,10 +140,8 @@ void GraphAlgorithms::AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix,
                                              size_t size) {
   for (size_t i = 0; i < size; i++) {
     for (size_t j = 0; j < size; j++) {
-      if (i == j) {
-        adjacency_matrix[i][j] = 0;
-      } else if (adjacency_matrix[i][j] == 0) {
-        adjacency_matrix[i][j] = INF;
+      if (adjacency_matrix[i][j] == 0) {
+        adjacency_matrix[i][j] = kMax;
       }
     }
   }
@@ -144,7 +161,7 @@ GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
 
   size_t x, y;
   while (no_edge < size - 1) {
-    size_t min = INF;
+    size_t min = kMax;
     x = 0;
     y = 0;
 
