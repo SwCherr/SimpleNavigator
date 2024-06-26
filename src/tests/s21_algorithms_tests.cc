@@ -247,3 +247,21 @@ TEST(GraphAlgorithms, GetLeastSpanningTree_FromFile_1) {
     }
   }
 }
+
+TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_FromFile_1) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
+
+  s21::GraphAlgorithms graph_alg;
+  s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
+  
+  for (size_t i = 0; i <graph.GetSize(); i++) {
+    printf("%lu ", res.vertices[i]);
+    // EXPECT_EQ(res, res_check);
+  }
+  printf("\n");
+  printf("distance = %f\n", res.distance);
+
+  double res_distance = 34;
+  EXPECT_EQ(res.distance, res_distance);
+}
