@@ -4,7 +4,7 @@
 
 namespace s21 {
 AntColonyOptimization::AntColonyOptimization(const Graph &graph)
-        : kQ_(0.015 * pow(graph.GetSize(), 2)), graph_(graph) { // graph.getGraphWeight() -> graph.GetSize()^2
+        : kQ_(0.015 * pow(graph.GetSize(), 3)), graph_(graph) { // graph.getGraphWeight() -> graph.GetSize()^2
           
    const std::size_t size = graph_.GetSize();
    Matrix matrix(size, std::vector<double>(size));
@@ -133,7 +133,7 @@ TsmResult AntColonyOptimization::SolveSalesmansProblem() {
           ant.MakeChoice(graph_, pheromone_, kAlpha_, kBeta_);
 
         auto ant_path = ant.path;
-        if (ant_path.vertices.size() == size + 1) {
+        if (ant_path.vertices.size() >= size) {
           if (path.distance > ant.path.distance) {
             path = std::move(ant.path);
             counter = 0;
