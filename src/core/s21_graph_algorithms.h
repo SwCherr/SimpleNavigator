@@ -28,8 +28,6 @@ public:
   matrix_uint32_t GetLeastSpanningTree(Graph &graph);
 
 private:
-  std::vector<std::vector<bool>>
-  ClosestPath(const matrix_uint32_t &adjacency_matrix);
   void AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix, size_t size);
 };
 
