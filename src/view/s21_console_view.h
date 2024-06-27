@@ -10,7 +10,7 @@ enum Choice {
   kBFS = 2,
   kDFS = 3,
   kGetShortPathBetweenVerteces = 4,
-  kGetShortPathBetweenAllVerteces = 5,
+  kGetShortPathsBetweenAllVerteces = 5,
   kGetLeastSpanningTree = 6,
   kSolveTravelingSalesmanProblem = 7,
 };

@@ -17,8 +17,9 @@ void ConsoleView::DisplayMenu() {
   cout << "2. DeepFirstSearch\n";
   cout << "3. BreadthFirstSearch\n";
   cout << "4. GetShortestPathBetweenVerteces\n";
-  cout << "5. GetShortestPathBetweenAllVerteces\n";
-  cout << "6. \n";
+  cout << "5. GetShortestPathsBetweenAllVerteces\n";
+  cout << "6. GetLeastSpanningTree\n";
+  cout << "7. SolveTravelingSalesmanProblem\n";
   cout << "0. Quit\n\n";
 }
 
@@ -51,24 +52,33 @@ void ConsoleView::startEventLoop() {
       break;
     case kBFS:
       firstVertex = inputVertex();
+      cout << "Breadth first search result:\n";
       PrintVectorResult(controller_->BreadthFirstSearch(firstVertex));
       break;
     case kDFS:
       firstVertex = inputVertex();
+      cout << "Depth first search result:\n";
       PrintVectorResult(controller_->DepthFirstSearch(firstVertex));
       break;
     case kGetShortPathBetweenVerteces:
-      firstVertex = inputVertex();
-      lastVertex = inputVertex();
+      cout << "Input first and last vertexes:";
+      cin >> firstVertex >> lastVertex;
+      cout << "Shorted path between " << firstVertex << " and " << lastVertex
+           << " is:\n";
       cout << controller_->GetShortestPathBetweenVerteces(firstVertex,
                                                           lastVertex);
       break;
-    case kGetShortPathBetweenAllVerteces:
-      controller_->PrintShortestPathBetweenAllVerteces();
+    case kGetShortPathsBetweenAllVerteces:
+      cout << "Shorted paths between all vertexes:\n";
+      controller_->PrintShortestPathsBetweenAllVerteces();
       break;
     case kGetLeastSpanningTree:
+      controller_->PrintLeastSpanningTree();
+      cout << "Least spanning tree:\n";
       break;
     case kSolveTravelingSalesmanProblem:
+      cout << "Solve traveling salesman problem:\n";
+      controller_->PrintSolveTravelingSelesmanProblem();
       break;
     case kExit:
       exit(1);

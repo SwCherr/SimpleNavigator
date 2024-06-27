@@ -25,6 +25,7 @@ public:
   bool GraphIsDirected();
   bool GraphIsFull();
   bool GraphIsWeighted();
+  bool Empty() { return size_ == 1 && adjacency_matrix_[0][0] == 0; }
 
   void PrintMatrixGraph();
 
