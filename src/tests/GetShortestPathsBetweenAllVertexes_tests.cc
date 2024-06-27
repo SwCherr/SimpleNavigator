@@ -124,13 +124,6 @@ TEST(GraphAlgorithms, GetLeastSpanningTree_FromFile_1) {
   check_matrix[4][3] = 0;
   check_matrix[4][4] = 0;
 
-  // for (size_t i = 0; i < size; i++) {
-  //   for (size_t j = 0; j < size; j++) {
-  //     printf("%d ", res_matrix[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-
   for (size_t i = 0; i < size; i++) {
     for (size_t j = 0; j < size; j++) {
       EXPECT_EQ(check_matrix[i][j], res_matrix[i][j]);

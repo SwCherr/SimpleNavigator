@@ -128,7 +128,7 @@ GraphAlgorithms::GetShortestPathsBetweenAllVertices(Graph &graph) {
   }
   for (size_t row = 0; row < size; ++row) {
     for (size_t col = 0; col < size; ++col) {
-      if (matrix[row][col] == kMax) {
+      if (matrix[row][col] == kMax || row == col) {
         matrix[row][col] = 0;
       }
     }
