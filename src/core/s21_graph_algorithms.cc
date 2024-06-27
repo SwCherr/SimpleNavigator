@@ -168,7 +168,7 @@ GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
 }
 
 GraphAlgorithms::TsmResult GraphAlgorithms::SolveTravelingSalesmanProblem(Graph &graph) {
-  AntColonyOptimization colony(graph);
+  AntColony colony(graph);
   return colony.SolveSalesmansProblem();
 }
 } // namespace s21

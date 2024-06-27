@@ -26,11 +26,10 @@ struct Ant {
   void ChooseNextVertex(const Graph::matrix_uint32_t m, std::vector<std::size_t> neighbors, std::vector<double> probability);
 };
 
-class AntColonyOptimization {
+class AntColony {
 public:
   using Matrix = std::vector<std::vector<double>>;
-  explicit AntColonyOptimization(const Graph &graph);
-
+  AntColony(const Graph &graph);
   TsmResult SolveSalesmansProblem();
 
 private:
