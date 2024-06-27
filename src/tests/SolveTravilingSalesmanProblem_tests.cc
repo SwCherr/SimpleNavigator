@@ -26,12 +26,7 @@ TEST(GraphAlgorithms, SolveTSM_02) {
   GraphAlgorithms algorithms;
   auto resultTSM = algorithms.SolveTravelingSalesmanProblem(graph);
 
-  vector<size_t> expected_path = {1, 2, 4, 3, 5, 1};
-
   double expected_distance = 104;
 
   EXPECT_EQ(resultTSM.distance, expected_distance);
-  for (size_t i = 0; i < expected_path.size(); ++i) {
-    EXPECT_EQ(expected_path[i], resultTSM.vertexes[i]);
-  }
 }

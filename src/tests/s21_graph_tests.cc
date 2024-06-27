@@ -21,6 +21,26 @@ TEST(Graph, ConstrucWithParams) {
   EXPECT_EQ(matrix[1][1], (size_t)0);
 }
 
+TEST(Graph, ConstructWithMatrix) {
+  s21::Graph::matrix_uint32_t expected_matrix = {
+      {1, 2, 3}, {2, 3, 4}, {3, 4, 5}};
+  s21::Graph graph(expected_matrix);
+  s21::Graph::matrix_uint32_t graph_matrix = graph.GetMatrix();
+  for (size_t row = 0; row < 3; ++row) {
+    for (size_t col = 0; col < 3; ++col) {
+      EXPECT_EQ(expected_matrix[row][col], graph_matrix[row][col]);
+    }
+  }
+}
+
+TEST(Graph, GraphIsWeighted) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/deep_graph.txt");
+  EXPECT_FALSE(graph.GraphIsWeighted());
+  graph.LoadGraphFromFile("examples/valid_matrix.txt");
+  EXPECT_TRUE(graph.GraphIsWeighted());
+}
+
 TEST(Graph, LoadFromFile) {
   // expected
   s21::Graph::matrix_uint32_t expected_matrix(5, std::vector<uint32_t>(5));

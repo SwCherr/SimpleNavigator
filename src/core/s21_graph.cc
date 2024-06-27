@@ -10,15 +10,6 @@
 
 namespace s21 {
 
-void Graph::PrintMatrixGraph() {
-  for (size_t i = 0; i < size_; i++) {
-    for (size_t j = 0; j < size_; j++) {
-      printf("%d ", adjacency_matrix_[i][j]);
-    }
-    printf("\n");
-  }
-}
-
 Graph::Graph() : size_(1), directed_(false), weighted_(false) {
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
 }
@@ -36,7 +27,7 @@ Graph::Graph(const matrix_uint32_t &matrix) {
     throw std::runtime_error("Failed to construct graph from matrix.");
   }
 
-  size_ = adjacency_matrix_.size();
+  size_ = matrix.size();
   adjacency_matrix_ = matrix_uint32_t(size_, std::vector<uint32_t>(size_));
   if (size_ != 0) {
     for (size_t row = 0; row < size_; ++row) {
@@ -101,34 +92,18 @@ void Graph::ExportGraphToDot(const std::string &filename) {
 
   for (size_t row = 0; row < size_; ++row) {
     for (size_t col = 0; col < size_; ++col) {
-      output << "\t" << row + 1;
-      std::string direction =
-          adjacency_matrix_[row][col] == adjacency_matrix_[col][row] ? " -- "
-                                                                     : " -> ";
-      output << direction;
-      output << col + 1 << " [weight=" << adjacency_matrix_[row][col] << "];\n";
+      if (adjacency_matrix_[row][col]) {
+        output << "\t" << row + 1;
+        std::string direction =
+            adjacency_matrix_[row][col] == adjacency_matrix_[col][row] ? " -- "
+                                                                       : " -> ";
+        output << direction;
+        output << col + 1 << " [weight=" << adjacency_matrix_[row][col]
+               << "];\n";
+      }
     }
   }
   output << "}\n";
-
-  output.close();
-}
-
-void Graph::SaveGraphToFile(const std::string &filename) {
-  std::ofstream output;
-  output.open(filename);
-
-  if (output.is_open() == false) {
-    throw std::logic_error("Couldn't open file.");
-  }
-
-  output << size_ << '\n';
-  for (size_t row = 0; row < size_; ++row) {
-    for (size_t col = 0; col < size_ - 1; ++col) {
-      output << adjacency_matrix_[row][col] << ' ';
-    }
-    output << adjacency_matrix_[row][size_ - 1] << '\n';
-  }
 
   output.close();
 }
@@ -148,19 +123,6 @@ bool Graph::GraphIsDirected() {
     }
   }
   return edges_count != reverse_edjes_count;
-}
-
-bool Graph::GraphIsFull() {
-  bool is_full = true;
-  for (size_t row = 0; row != size_ && is_full; ++row) {
-    for (size_t col = 0; col != size_ && is_full; ++col) {
-      if (adjacency_matrix_[row][col] == 0 && row != col) {
-        is_full = false;
-      }
-    }
-  }
-
-  return is_full;
 }
 
 bool Graph::GraphIsWeighted() {

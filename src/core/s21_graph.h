@@ -20,15 +20,11 @@ class Graph {
   matrix_uint32_t GetMatrix() const noexcept { return adjacency_matrix_; }
 
   void LoadGraphFromFile(const std::string &filename);
-  void SaveGraphToFile(const std::string &filename);
   void ExportGraphToDot(const std::string &filename);
 
   bool GraphIsDirected();
-  bool GraphIsFull();
   bool GraphIsWeighted();
   bool Empty() { return size_ == 1 && adjacency_matrix_[0][0] == 0; }
-
-  void PrintMatrixGraph();
 
  private:
   size_t size_;
