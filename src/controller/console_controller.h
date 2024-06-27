@@ -18,7 +18,7 @@ class ConsoleController {
     if (graph_.Empty()) {
       std::cout << "Graph is empty.\n";
     } else {
-      graph_.PrintMatrixGraph();
+      PrintMatrixUint32_t(graph_.GetMatrix());
     }
   }
 

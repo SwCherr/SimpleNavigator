@@ -36,6 +36,8 @@ TEST_EXECUTABLE = $(DIR_BUILD)/core_test
 
 all: $(CORE_LIB) core_test
 
+s21_graph_algorithms : app
+
 app :
 	g++ -std=c++17 -Wall -Wextra -Werror -g main.cc core/s21_graph.cc core/s21_ant_colony.cc core/s21_graph_algorithms.cc controller/console_controller.cc view/s21_console_view.cc -o app
 
