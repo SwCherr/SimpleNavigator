@@ -185,4 +185,8 @@ GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
   return matrix_res;
 }
 
+GraphAlgorithms::TsmResult GraphAlgorithms::SolveTravelingSalesmanProblem(Graph &graph) {
+  AntColony colony(graph);
+  return colony.SolveSalesmansProblem();
+}
 } // namespace s21

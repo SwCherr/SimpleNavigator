@@ -2,6 +2,7 @@
 #define A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_ALGORITHMS_H_
 
 #include "s21_graph.h"
+#include "s21_ant_colony.h"
 #include <_types/_uint32_t.h>
 #include <climits>
 #include <limits>
@@ -15,6 +16,7 @@ using std::vector;
 class GraphAlgorithms {
 public:
   using matrix_uint32_t = vector<std::vector<uint32_t>>;
+  using TsmResult = struct TsmResult;
 
   const uint32_t kMax = std::numeric_limits<uint32_t>::max();
 
@@ -26,6 +28,7 @@ public:
                                         uint32_t to);
   matrix_uint32_t GetShortestPathsBetweenAllVertices(Graph &graph);
   matrix_uint32_t GetLeastSpanningTree(Graph &graph);
+  TsmResult SolveTravelingSalesmanProblem(Graph &graph);
 
 private:
   void AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix, size_t size);
