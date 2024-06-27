@@ -12,7 +12,9 @@ struct TsmResult {
 
 struct Ant {
   using Matrix = std::vector<std::vector<double>>;
-  explicit Ant(std::size_t start_vertex = 0) : start_location(start_vertex), current_location(start_vertex) {}; //// explicit
+  explicit Ant(std::size_t start_vertex = 0)
+      : start_location(start_vertex),
+        current_location(start_vertex){};  //// explicit
 
   TsmResult path;
   std::vector<std::size_t> visited;
@@ -23,16 +25,18 @@ struct Ant {
   void MakeChoice(const Graph &g, const Matrix &p, double a, double b);
   double GetRandomChoice();
   std::vector<std::size_t> GetNeighborVertexes(const Graph &g);
-  void ChooseNextVertex(const Graph::matrix_uint32_t m, std::vector<std::size_t> neighbors, std::vector<double> probability);
+  void ChooseNextVertex(const Graph::matrix_uint32_t m,
+                        std::vector<std::size_t> neighbors,
+                        std::vector<double> probability);
 };
 
 class AntColony {
-public:
+ public:
   using Matrix = std::vector<std::vector<double>>;
   AntColony(const Graph &graph);
   TsmResult SolveSalesmansProblem();
 
-private:
+ private:
   const double kAlpha_ = 1.0;
   const double kBeta_ = 2.0;
   const double kPheromone0_ = 1;
@@ -45,9 +49,10 @@ private:
 
   void CreateAnts();
   void UpdateGlobalPheromone(const Matrix &local_pheromone_update);
-  bool CheckIsAllVertexes(std::vector<std::size_t> vertexes, std::size_t start_location);
+  bool CheckIsAllVertexes(std::vector<std::size_t> vertexes,
+                          std::size_t start_location);
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_ANT_COLONY_H_
+#endif  // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_ANT_COLONY_H_

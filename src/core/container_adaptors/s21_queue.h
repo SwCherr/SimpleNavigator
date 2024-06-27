@@ -12,7 +12,7 @@ namespace s21 {
 
 template <class T, class C = std::deque<T>>
 class queue : public container_adaptor<T, C> {
-public:
+ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -29,7 +29,8 @@ public:
   void push(const_reference value) override;
   const_reference back();
   const_reference front();
-  template <class... Args> void insert_many_back(Args &&...args);
+  template <class... Args>
+  void insert_many_back(Args &&...args);
 
   queue operator=(const queue &other);
   bool operator==(const queue &other) const;
@@ -42,17 +43,23 @@ queue<T, C>::queue(std::initializer_list<value_type> const &items) {
   }
 }
 
-template <class T, class C> queue<T, C>::queue(const queue &other) {
+template <class T, class C>
+queue<T, C>::queue(const queue &other) {
   container_ = other.container_;
 }
 
-template <class T, class C> queue<T, C>::queue(queue &&other) noexcept {
+template <class T, class C>
+queue<T, C>::queue(queue &&other) noexcept {
   container_ = std::move(other.container_);
 }
 
-template <class T, class C> void queue<T, C>::pop() { container_.pop_front(); }
+template <class T, class C>
+void queue<T, C>::pop() {
+  container_.pop_front();
+}
 
-template <class T, class C> void queue<T, C>::push(const_reference value) {
+template <class T, class C>
+void queue<T, C>::push(const_reference value) {
   container_.push_back(value);
 }
 
@@ -85,6 +92,6 @@ bool queue<T, C>::operator==(const queue &other) const {
   return container_ == other.container_;
 }
 
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_V1_0_CPP_CORE_CONTAINER_ADAPTORS_S21_QUEUE_H_
+#endif  // A2_SIMPLENAVIGATOR_V1_0_CPP_CORE_CONTAINER_ADAPTORS_S21_QUEUE_H_

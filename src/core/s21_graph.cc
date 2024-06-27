@@ -1,10 +1,11 @@
 #include "s21_graph.h"
 
 #include <_types/_uint32_t.h>
+#include <sys/_types/_int64_t.h>
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-#include <sys/_types/_int64_t.h>
 #include <vector>
 
 namespace s21 {
@@ -175,4 +176,4 @@ bool Graph::GraphIsWeighted() {
   return is_weighted;
 }
 
-} // namespace s21
+}  // namespace s21

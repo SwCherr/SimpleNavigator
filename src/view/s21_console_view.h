@@ -16,7 +16,7 @@ enum Choice {
 };
 
 class ConsoleView {
-public:
+ public:
   ConsoleView(ConsoleController *c) : controller_(c){};
 
   size_t inputVertex();
@@ -25,10 +25,10 @@ public:
   std::string filePathInput();
   void startEventLoop();
 
-private:
+ private:
   void PrintVectorResult(vector<uint32_t> result);
   ConsoleController *controller_;
 };
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_CONSOLE_INTERFACE_H_
+#endif  // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_CONSOLE_INTERFACE_H_

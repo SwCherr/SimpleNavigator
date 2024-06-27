@@ -2,13 +2,14 @@
 #define A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_
 
 #include <_types/_uint32_t.h>
+
 #include <string>
 #include <vector>
 
 namespace s21 {
 
 class Graph {
-public:
+ public:
   using matrix_uint32_t = std::vector<std::vector<uint32_t>>;
 
   Graph();
@@ -29,12 +30,12 @@ public:
 
   void PrintMatrixGraph();
 
-private:
+ private:
   size_t size_;
   matrix_uint32_t adjacency_matrix_;
   bool directed_;
   bool weighted_;
 };
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_
+#endif  // A2_SIMPLENAVIGATOR_v1_0_CPP_CORE_S21_GRAPH_H_

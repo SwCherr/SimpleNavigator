@@ -12,7 +12,7 @@ namespace s21 {
 
 template <class T, class C = std::deque<T>>
 class stack : public container_adaptor<T, C> {
-public:
+ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -28,11 +28,12 @@ public:
   reference top();
   void pop() override;
   void push(const_reference value) override;
-  template <class... Args> void insert_many_front(Args &&...args);
+  template <class... Args>
+  void insert_many_front(Args &&...args);
 
   stack operator=(const stack &other);
   bool operator==(const stack &other) const;
-}; // class stack
+};  // class stack
 
 template <class T, class C>
 stack<T, C>::stack(std::initializer_list<value_type> const &items) {
@@ -41,23 +42,30 @@ stack<T, C>::stack(std::initializer_list<value_type> const &items) {
   }
 }
 
-template <class T, class C> stack<T, C>::stack(const stack &other) {
+template <class T, class C>
+stack<T, C>::stack(const stack &other) {
   container_ = other.container_;
 }
 
-template <class T, class C> stack<T, C>::stack(stack &&other) noexcept {
+template <class T, class C>
+stack<T, C>::stack(stack &&other) noexcept {
   container_ = std::move(other.container_);
 }
 
-template <class T, class C> typename stack<T, C>::reference stack<T, C>::top() {
+template <class T, class C>
+typename stack<T, C>::reference stack<T, C>::top() {
   return container_.back();
 }
 
-template <class T, class C> void stack<T, C>::push(const_reference value) {
+template <class T, class C>
+void stack<T, C>::push(const_reference value) {
   container_.push_back(value);
 }
 
-template <class T, class C> void stack<T, C>::pop() { container_.pop_back(); }
+template <class T, class C>
+void stack<T, C>::pop() {
+  container_.pop_back();
+}
 
 template <class T, class C>
 stack<T, C> stack<T, C>::operator=(const stack &other) {
@@ -78,6 +86,6 @@ void stack<T, C>::insert_many_front(Args &&...args) {
   }
 }
 
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_V1_0_CPP_CORE_CONTAINER_ADAPTORS_S21_STACK_H_
+#endif  // A2_SIMPLENAVIGATOR_V1_0_CPP_CORE_CONTAINER_ADAPTORS_S21_STACK_H_

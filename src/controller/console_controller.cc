@@ -11,4 +11,4 @@ void ConsoleController::PrintMatrixUint32_t(Graph::matrix_uint32_t matrix) {
     std::cout << '\n';
   }
 }
-} // namespace s21
+}  // namespace s21

@@ -1,4 +1,5 @@
 #include "s21_ant_colony.h"
+
 #include <algorithm>
 #include <cmath>
 #include <random>
@@ -8,18 +9,22 @@ AntColony::AntColony(const Graph &graph)
     : kQ_(0.015 * pow(graph.GetSize(), 2)), graph_(graph) {
   const std::size_t size = graph_.GetSize();
   Matrix matrix(size, std::vector<double>(size));
-  for (std::size_t row = 0; row != size; row++)
-    for (std::size_t col = 0; col != size; col++)
-      if (row != col)
+  for (std::size_t row = 0; row != size; row++) {
+    for (std::size_t col = 0; col != size; col++) {
+      if (row != col) {
         matrix[row][col] = kPheromone0_;
+      }
+    }
+  }
   pheromone_ = std::move(matrix);
 }
 
 void AntColony::CreateAnts() {
   const size_t kAntsCount = graph_.GetSize();
   ants_.resize(kAntsCount);
-  for (std::size_t i = 0; i != kAntsCount; i++)
+  for (std::size_t i = 0; i != kAntsCount; i++) {
     ants_[i] = Ant(i);
+  }
 }
 
 void AntColony::UpdateGlobalPheromone(const Matrix &lpu) {
@@ -27,8 +32,9 @@ void AntColony::UpdateGlobalPheromone(const Matrix &lpu) {
     for (std::size_t to = 0; to != size; to++) {
       pheromone_[from][to] =
           (1 - kEvaporation_) * pheromone_[from][to] + lpu[from][to];
-      if (pheromone_[from][to] < 0.01 && from != to)
+      if (pheromone_[from][to] < 0.01 && from != to) {
         pheromone_[from][to] = 0.01;
+      }
     }
   }
 }
@@ -47,8 +53,7 @@ std::vector<std::size_t> Ant::GetNeighborVertexes(const Graph &graph) {
     bool edge_is_exist = g[current_location][to] != 0;
     bool vertex_is_unvisited =
         std::find(visited.begin(), visited.end(), to) == visited.end();
-    if (edge_is_exist && vertex_is_unvisited)
-      vertexes.push_back(to);
+    if (edge_is_exist && vertex_is_unvisited) vertexes.push_back(to);
   }
   return vertexes;
 }
@@ -116,15 +121,15 @@ void Ant::ChooseNextVertex(const Graph::matrix_uint32_t m,
   }
 }
 
-bool AntColony::CheckIsAllVertexes(std::vector<std::size_t> vertexes, std::size_t start_location) {
+bool AntColony::CheckIsAllVertexes(std::vector<std::size_t> vertexes,
+                                   std::size_t start_location) {
   bool is_all_vertexes = true;
   int start_vertex_count = 0;
   for (size_t i = 1; i <= vertexes.size(); i++) {
     bool is_vertex = false;
     for (size_t j = 0; j < vertexes.size(); j++) {
       if (vertexes[j] == i) {
-        if (vertexes[j] == start_location) 
-          start_vertex_count++;
+        if (vertexes[j] == start_location) start_vertex_count++;
         is_vertex = true;
         continue;
       }
@@ -153,18 +158,19 @@ TsmResult AntColony::SolveSalesmansProblem() {
         while (ant.can_continue)
           ant.MakeChoice(graph_, pheromone_, kAlpha_, kBeta_);
         auto path_ant = ant.path;
-        if (path_ant.vertexes.size() == size+1) {
-          if (path_res.distance > path_ant.distance) {
-            if (CheckIsAllVertexes(path_ant.vertexes, ant.start_location)) {
-              path_res = std::move(ant.path);
-              counter = 0;
-            }
+        // if (path_ant.vertexes.size() == size+1) {
+        if (path_res.distance > path_ant.distance) {
+          if (CheckIsAllVertexes(path_ant.vertexes, ant.start_location)) {
+            path_res = std::move(ant.path);
+            counter = 0;
           }
-          for (std::size_t v = 0; v != path_ant.vertexes.size() - 1; v++)
-            local_pheromone_update[path_ant.vertexes[v] - 1]
-                                  [path_ant.vertexes[v + 1] - 1] +=
-                kQ_ / path_ant.distance;
         }
+        for (std::size_t v = 0; v != path_ant.vertexes.size() - 1; v++) {
+          local_pheromone_update[path_ant.vertexes[v] - 1]
+                                [path_ant.vertexes[v + 1] - 1] +=
+              kQ_ / path_ant.distance;
+        }
+        // }
       }
       UpdateGlobalPheromone(local_pheromone_update);
     }
@@ -177,4 +183,4 @@ TsmResult AntColony::SolveSalesmansProblem() {
   }
   return path_res;
 }
-} // namespace s21
+}  // namespace s21

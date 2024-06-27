@@ -1,12 +1,15 @@
 #include "s21_graph_algorithms.h"
-#include "container_adaptors/s21_queue.h"
-#include "container_adaptors/s21_stack.h"
+
 #include <_types/_uint32_t.h>
+
 #include <cmath>
 #include <cstring>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+
+#include "container_adaptors/s21_queue.h"
+#include "container_adaptors/s21_stack.h"
 
 namespace s21 {
 using std::vector;
@@ -147,8 +150,8 @@ void GraphAlgorithms::AdjacencyMatrixPrepare(matrix_uint32_t &adjacency_matrix,
   }
 }
 
-GraphAlgorithms::matrix_uint32_t
-GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
+GraphAlgorithms::matrix_uint32_t GraphAlgorithms::GetLeastSpanningTree(
+    Graph &graph) {
   size_t size = graph.GetSize();
   matrix_uint32_t matrix = graph.GetMatrix();
   matrix_uint32_t matrix_res(size, std::vector<uint32_t>(size));
@@ -185,8 +188,9 @@ GraphAlgorithms::GetLeastSpanningTree(Graph &graph) {
   return matrix_res;
 }
 
-GraphAlgorithms::TsmResult GraphAlgorithms::SolveTravelingSalesmanProblem(Graph &graph) {
+GraphAlgorithms::TsmResult GraphAlgorithms::SolveTravelingSalesmanProblem(
+    Graph &graph) {
   AntColony colony(graph);
   return colony.SolveSalesmansProblem();
 }
-} // namespace s21
+}  // namespace s21

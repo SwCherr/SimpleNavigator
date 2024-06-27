@@ -1,9 +1,11 @@
+#include <_types/_uint32_t.h>
+#include <gtest/gtest.h>
+
+#include <cstdint>
+#include <limits>
+
 #include "../core/s21_graph.h"
 #include "../core/s21_graph_algorithms.h"
-#include <_types/_uint32_t.h>
-#include <cstdint>
-#include <gtest/gtest.h>
-#include <limits>
 
 TEST(GraphAlgorithms, GetShortestPathBetweenVertices_2) {
   s21::Graph graph;

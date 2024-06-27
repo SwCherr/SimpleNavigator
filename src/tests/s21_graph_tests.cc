@@ -1,5 +1,6 @@
-#include "../core/s21_graph.h"
 #include <gtest/gtest.h>
+
+#include "../core/s21_graph.h"
 
 TEST(Graph, Construct) {
   s21::Graph graph;

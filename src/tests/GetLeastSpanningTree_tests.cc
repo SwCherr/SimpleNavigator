@@ -1,6 +1,7 @@
+#include <gtest/gtest.h>
+
 #include "../core/s21_graph.h"
 #include "../core/s21_graph_algorithms.h"
-#include <gtest/gtest.h>
 
 TEST(GraphAlhorithms, min_spanning_tree_1) {
   s21::Graph graph;
@@ -35,7 +36,6 @@ TEST(GraphAlhorithms, min_spanning_tree_1) {
   //   std::cout << '\n';
   // }
 }
-
 
 TEST(GraphAlhorithms, min_spanning_tree_2) {
   s21::Graph graph;

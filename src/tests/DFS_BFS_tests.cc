@@ -1,6 +1,7 @@
-#include "../core/s21_graph_algorithms.h"
 #include <_types/_uint32_t.h>
 #include <gtest/gtest.h>
+
+#include "../core/s21_graph_algorithms.h"
 
 TEST(GraphAlgorithmsSearch, DepthFirstSearch_01) {
   s21::Graph graph;

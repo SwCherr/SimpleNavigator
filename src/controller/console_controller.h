@@ -1,15 +1,17 @@
 #ifndef A2_SIMPLENAVIGATOR_v1_0_CPP_CONTROLLER_S21_CONSOLE_CONTROLLER_H_
 #define A2_SIMPLENAVIGATOR_v1_0_CPP_CONTROLLER_S21_CONSOLE_CONTROLLER_H_
 
-#include "../core/s21_graph.h"
-#include "../core/s21_graph_algorithms.h"
 #include <_types/_uint32_t.h>
+
 #include <filesystem>
 #include <iostream>
 
+#include "../core/s21_graph.h"
+#include "../core/s21_graph_algorithms.h"
+
 namespace s21 {
 class ConsoleController {
-public:
+ public:
   ConsoleController(GraphAlgorithms *m) : model_(m), graph_(){};
 
   void PrintCurrentGraph() {
@@ -54,14 +56,21 @@ public:
     PrintMatrixUint32_t(matrix);
   }
 
-  void PrintSolveTravelingSelesmanProblem() { std::cout << "tut"; }
+  void PrintSolveTravelingSelesmanProblem() {
+    TsmResult result = model_->SolveTravelingSalesmanProblem(graph_);
+    std::cout << "TSM path: ";
+    for (size_t i = 0; i < result.vertexes.size(); ++i) {
+      std::cout << result.vertexes[i] << ' ';
+    }
+    std::cout << "\nTSM distance: " << result.distance << '\n';
+  }
 
-private:
+ private:
   void PrintMatrixUint32_t(Graph::matrix_uint32_t matrix);
 
   GraphAlgorithms *model_;
   Graph graph_;
 };
-} // namespace s21
+}  // namespace s21
 
-#endif // A2_SIMPLENAVIGATOR_v1_0_CPP_CONTROLLER_S21_CONSOLE_CONTROLLER_H_
+#endif  // A2_SIMPLENAVIGATOR_v1_0_CPP_CONTROLLER_S21_CONSOLE_CONTROLLER_H_

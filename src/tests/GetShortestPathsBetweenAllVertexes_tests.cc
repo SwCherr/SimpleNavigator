@@ -1,6 +1,7 @@
+#include <gtest/gtest.h>
+
 #include "../core/s21_graph.h"
 #include "../core/s21_graph_algorithms.h"
-#include <gtest/gtest.h>
 
 TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_01) {
   s21::Graph graph;
@@ -8,10 +9,10 @@ TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_01) {
 
   s21::GraphAlgorithms algorithms;
 
-  s21::Graph::matrix_uint32_t expected_matrix = {{0, 1, 1, 2},  // line - 1
-                                                 {0, 0, 0, 0},  // line - 2
-                                                 {0, 0, 0, 1},  // line - 3
-                                                 {0, 0, 0, 0}}; // line - 4
+  s21::Graph::matrix_uint32_t expected_matrix = {{0, 1, 1, 2},   // line - 1
+                                                 {0, 0, 0, 0},   // line - 2
+                                                 {0, 0, 0, 1},   // line - 3
+                                                 {0, 0, 0, 0}};  // line - 4
 
   s21::Graph::matrix_uint32_t result_matrix =
       algorithms.GetShortestPathsBetweenAllVertices(graph);

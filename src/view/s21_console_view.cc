@@ -45,47 +45,47 @@ void ConsoleView::startEventLoop() {
     DisplayMenu();
 
     switch ((Choice)performChoice()) {
-    case kLoadGraphFromFile:
-      cout << "Enter path to file\n";
-      cin >> fileName;
-      controller_->LoadGraphFromFile(fileName);
-      break;
-    case kBFS:
-      firstVertex = inputVertex();
-      cout << "Breadth first search result:\n";
-      PrintVectorResult(controller_->BreadthFirstSearch(firstVertex));
-      break;
-    case kDFS:
-      firstVertex = inputVertex();
-      cout << "Depth first search result:\n";
-      PrintVectorResult(controller_->DepthFirstSearch(firstVertex));
-      break;
-    case kGetShortPathBetweenVerteces:
-      cout << "Input first and last vertexes:";
-      cin >> firstVertex >> lastVertex;
-      cout << "Shorted path between " << firstVertex << " and " << lastVertex
-           << " is:\n";
-      cout << controller_->GetShortestPathBetweenVerteces(firstVertex,
-                                                          lastVertex);
-      break;
-    case kGetShortPathsBetweenAllVerteces:
-      cout << "Shorted paths between all vertexes:\n";
-      controller_->PrintShortestPathsBetweenAllVerteces();
-      break;
-    case kGetLeastSpanningTree:
-      controller_->PrintLeastSpanningTree();
-      cout << "Least spanning tree:\n";
-      break;
-    case kSolveTravelingSalesmanProblem:
-      cout << "Solve traveling salesman problem:\n";
-      controller_->PrintSolveTravelingSelesmanProblem();
-      break;
-    case kExit:
-      exit(1);
+      case kLoadGraphFromFile:
+        cout << "Enter path to file\n";
+        cin >> fileName;
+        controller_->LoadGraphFromFile(fileName);
+        break;
+      case kBFS:
+        firstVertex = inputVertex();
+        cout << "Breadth first search result:\n";
+        PrintVectorResult(controller_->BreadthFirstSearch(firstVertex));
+        break;
+      case kDFS:
+        firstVertex = inputVertex();
+        cout << "Depth first search result:\n";
+        PrintVectorResult(controller_->DepthFirstSearch(firstVertex));
+        break;
+      case kGetShortPathBetweenVerteces:
+        cout << "Input first and last vertexes:";
+        cin >> firstVertex >> lastVertex;
+        cout << "Shorted path between " << firstVertex << " and " << lastVertex
+             << " is:\n";
+        cout << controller_->GetShortestPathBetweenVerteces(firstVertex,
+                                                            lastVertex);
+        break;
+      case kGetShortPathsBetweenAllVerteces:
+        cout << "Shorted paths between all vertexes:\n";
+        controller_->PrintShortestPathsBetweenAllVerteces();
+        break;
+      case kGetLeastSpanningTree:
+        controller_->PrintLeastSpanningTree();
+        cout << "Least spanning tree:\n";
+        break;
+      case kSolveTravelingSalesmanProblem:
+        cout << "Solve traveling salesman problem:\n";
+        controller_->PrintSolveTravelingSelesmanProblem();
+        break;
+      case kExit:
+        exit(1);
 
-    default:
-      cout << "Wrong menu item number!";
-      continue;
+      default:
+        cout << "Wrong menu item number!";
+        continue;
     }
   }
 }
@@ -98,4 +98,4 @@ void ConsoleView::PrintVectorResult(vector<uint32_t> result) {
   cout << '\n';
 }
 
-} // namespace s21
+}  // namespace s21
