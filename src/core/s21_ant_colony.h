@@ -45,7 +45,7 @@ private:
 
   void CreateAnts();
   void UpdateGlobalPheromone(const Matrix &local_pheromone_update);
-  bool CheckIsAllVertexes(std::vector<std::size_t> vertexes);
+  bool CheckIsAllVertexes(std::vector<std::size_t> vertexes, std::size_t start_location);
 };
 
 } // namespace s21

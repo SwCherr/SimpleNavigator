@@ -257,7 +257,7 @@ TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_1) {
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
   s21::GraphAlgorithms graph_alg;
   s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
-  double res_distance = 43;
+  double res_distance = 77;
   EXPECT_TRUE(res.distance <= res_distance);
 }
 
@@ -266,7 +266,7 @@ TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_2) {
   graph.LoadGraphFromFile("examples/valid_matrix_1.txt");
   s21::GraphAlgorithms graph_alg;
   s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
-  double res_distance = 9;
+  double res_distance = 14;
   EXPECT_TRUE(res.distance <= res_distance);
 }
 

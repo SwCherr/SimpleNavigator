@@ -116,17 +116,20 @@ void Ant::ChooseNextVertex(const Graph::matrix_uint32_t m,
   }
 }
 
-bool AntColony::CheckIsAllVertexes(std::vector<std::size_t> vertexes) {
+bool AntColony::CheckIsAllVertexes(std::vector<std::size_t> vertexes, std::size_t start_location) {
   bool is_all_vertexes = true;
+  int start_vertex_count = 0;
   for (size_t i = 1; i <= vertexes.size(); i++) {
     bool is_vertex = false;
     for (size_t j = 0; j < vertexes.size(); j++) {
       if (vertexes[j] == i) {
+        if (vertexes[j] == start_location) 
+          start_vertex_count++;
         is_vertex = true;
         continue;
       }
     }
-    if (!is_vertex) {
+    if (!is_vertex && start_vertex_count == 2) {
       is_all_vertexes = false;
       break;
     }
@@ -150,9 +153,9 @@ TsmResult AntColony::SolveSalesmansProblem() {
         while (ant.can_continue)
           ant.MakeChoice(graph_, pheromone_, kAlpha_, kBeta_);
         auto path_ant = ant.path;
-        if (path_ant.vertexes.size() == size) {
+        if (path_ant.vertexes.size() == size+1) {
           if (path_res.distance > path_ant.distance) {
-            if (CheckIsAllVertexes(path_ant.vertexes)) {
+            if (CheckIsAllVertexes(path_ant.vertexes, ant.start_location)) {
               path_res = std::move(ant.path);
               counter = 0;
             }
