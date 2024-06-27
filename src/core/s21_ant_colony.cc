@@ -3,23 +3,20 @@
 #include <random>
 
 namespace s21 {
-AntColonyOptimization::AntColonyOptimization(const Graph &graph)
-        : kQ_(0.015 * pow(graph.GetSize(), 3)), graph_(graph) { // graph.getGraphWeight() -> graph.GetSize()^2
-          
-   const std::size_t size = graph_.GetSize();
-   Matrix matrix(size, std::vector<double>(size));
+AntColonyOptimization::AntColonyOptimization(const Graph &graph) : kQ_(0.015 * pow(graph.GetSize(), 3)), graph_(graph) { // graph.getGraphWeight() -> graph.GetSize()^2
+  const std::size_t size = graph_.GetSize();
+  Matrix matrix(size, std::vector<double>(size));
 
-   for (std::size_t row = 0; row != size; ++row)
-      for (std::size_t col = 0; col != size; ++col)
-        if (row != col) matrix[row][col] = kPheromone0_;
+  for (std::size_t row = 0; row != size; ++row)
+    for (std::size_t col = 0; col != size; ++col)
+      if (row != col) matrix[row][col] = kPheromone0_;
 
-   pheromone_ = std::move(matrix);
+  pheromone_ = std::move(matrix);
 }
 
 void AntColonyOptimization::CreateAnts() {
-  const auto kAntsCount = graph_.GetSize();
+  const size_t kAntsCount = graph_.GetSize();
   ants_.resize(kAntsCount);
-
   for (std::size_t i = 0; i != kAntsCount; ++i)
     ants_[i] = Ant(i);
 }
@@ -29,58 +26,71 @@ void AntColonyOptimization::UpdateGlobalPheromone(const Matrix &lpu) {
   for (std::size_t from = 0, size = lpu.size(); from != size; ++from) {
     for (std::size_t to = 0; to != size; ++to) {
       pheromone_[from][to] = (1 - kEvaporation_) * pheromone_[from][to] + lpu[from][to];
-      if (pheromone_[from][to] < 0.01 and from != to)
+      if (pheromone_[from][to] < 0.01 && from != to)
         pheromone_[from][to] = 0.01;
     }
   }
 }
 
-double Ant::getRandomChoice() {
+double Ant::GetRandomChoice() {
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dist(0, 9);
-  return dist(gen) % 2 == 1;
+  std::uniform_int_distribution<> dist(1, 10);
+  return (double) dist(gen) / 10;
 }
 
-std::vector<std::size_t> Ant::getNeighborVertexes(const Graph &graph) {
+std::vector<std::size_t> Ant::GetNeighborVertexes(const Graph &graph) {
   std::vector<std::size_t> vertexes;
   Graph::matrix_uint32_t g = graph.GetMatrix();
 
-  for (std::size_t to = 0; to != graph.GetSize(); ++to) {
+  for (std::size_t to = 0; to < graph.GetSize(); ++to) {
     bool edge_is_exist = g[current_location][to] != 0;
     bool vertex_is_unvisited = std::find(visited.begin(), visited.end(), to) == visited.end();
-    if (edge_is_exist and vertex_is_unvisited)
+
+
+    // printf("from = %lu | to = %lu | path = %u \n", current_location, to, g[current_location][to]); ///////
+
+    if (edge_is_exist && vertex_is_unvisited) {
+      // printf("from = %lu | to = %lu | path = %u \n", current_location+1, to+1, g[current_location][to]); ///////
       vertexes.push_back(to);
+    }
   }
+
+  // printf("vertexes:  ");
+  // for (std::size_t i = 0; i < vertexes.size(); i++) {
+  //   printf("%lu ", vertexes[i]+1);
+  // }
+  // printf("\n");
+
   return vertexes;   
 }
 
 void Ant::MakeChoice(const Graph &graph, const Matrix &p, double alpha, double beta) {
   Graph::matrix_uint32_t g = graph.GetMatrix();
-  if (path.vertices.empty()) {
-    path.vertices.push_back(current_location+1);
+  if (path.vertexes.empty()) {
+    path.vertexes.push_back(current_location+1);
     visited.push_back(current_location);
   }
 
-  std::vector<std::size_t> neighbor_vertexes = getNeighborVertexes(graph);
+  std::vector<std::size_t> neighbors = GetNeighborVertexes(graph);
 
-  if (neighbor_vertexes.empty()) {
+  if (neighbors.empty()) {
     can_continue = false;
     if (g[current_location][start_location] != 0) {
-      path.vertices.push_back(start_location+1);
+      path.vertexes.push_back(start_location+1);
       path.distance += g[current_location][start_location];
     }
     return;
   }
 
-   std::vector<double> choosing_probability(neighbor_vertexes.size());
+  std::vector<double> choose_probability(neighbors.size());
 
   {
     // Подсчет вероятности перехода муравья из одной вершины в другую
     std::vector<double> wish;
     std::vector<double> probability; 
     double summary_wish = 0.0f;
-    for (auto v : neighbor_vertexes) {
+    for (auto v : neighbors) {
       double t = p[current_location][v];
       double w = g[current_location][v];
       double n = 1 / w;
@@ -88,75 +98,124 @@ void Ant::MakeChoice(const Graph &graph, const Matrix &p, double alpha, double b
       summary_wish += wish.back();
     }
 
-    for (std::size_t neighbor = 0; neighbor != neighbor_vertexes.size(); ++neighbor) {
+    for (std::size_t neighbor = 0; neighbor != neighbors.size(); ++neighbor) {
       probability.push_back(wish[neighbor] / summary_wish);
       if (neighbor == 0)
-        choosing_probability[neighbor] = probability.back();
+        choose_probability[neighbor] = probability.back();
       else
-        choosing_probability[neighbor] = choosing_probability[neighbor - 1] + probability.back();
+        choose_probability[neighbor] = choose_probability[neighbor - 1] + probability.back();
     }
   }
 
-  // Определение следующей вершины, которую посетит муравей
-  std::size_t next_vertex = 0;
-  double choose = getRandomChoice();
+  ChooseNextVertex(g, neighbors, choose_probability);
+}
 
-  for (std::size_t n = 0; n != neighbor_vertexes.size(); ++n ) {
-    if (choose <= choosing_probability[n]) {
-      next_vertex = neighbor_vertexes[n];
+void Ant::ChooseNextVertex(const Graph::matrix_uint32_t m, std::vector<std::size_t> neighbors, std::vector<double> probability) {
+  bool is_choose = false;
+  double choose = GetRandomChoice();
+  std::size_t next_vertex = 0;
+
+  for (std::size_t n = 0; n != neighbors.size(); ++n ) {
+    if (choose <= probability[n]) {
+      next_vertex = neighbors[n];
+      is_choose = true;
       break;
     }
   }
 
-  path.vertices.push_back(next_vertex+1);
-  path.distance += g[current_location][start_location];
-  visited.push_back(next_vertex);
-  current_location = next_vertex;
+  if (is_choose) {
+    // printf("current_v     = %lu \n", current_location+1);
+    // printf("next_v        = %lu \n", next_vertex+1);
+    // printf("path          = %u \n", m[current_location][start_location]);
+    // printf("path.distance = %.f \n", path.distance);
+
+    path.vertexes.push_back(next_vertex+1);
+    path.distance += m[current_location][next_vertex];
+    visited.push_back(next_vertex);
+    current_location = next_vertex;
+  }
+}
+
+bool AntColonyOptimization::CheckIsAllVertexes(std::vector<std::size_t> vertexes) {
+  bool is_all_vertexes = true;
+  for (size_t i = 1; i <= vertexes.size(); i++) {
+    bool is_vertex = false;
+    for (size_t j = 0; j < vertexes.size(); j++) {
+      if (vertexes[j] == i) {
+        is_vertex = true;
+        continue;
+      }
+    }
+    if (!is_vertex) {
+      is_all_vertexes = false;
+      break;
+    }
+  }
+  return is_all_vertexes;
 }
 
 TsmResult AntColonyOptimization::SolveSalesmansProblem() {
-  TsmResult path;
+  TsmResult path_res;
+  std::size_t counter = 0;
+  const std::size_t kMaxIterationsWithoutImprovement = 100; // change on -> 100
+  const std::size_t size = graph_.GetSize();
+
   if (graph_.GetSize() > 0) {
+    path_res.distance = INF;
 
-    constexpr std::size_t kMaxIterationsWithoutImprovement = 100;
-    const std::size_t size = graph_.GetSize();
-    std::size_t counter = 0;
-
-    path.distance = INF;
-
-    while (counter++ != kMaxIterationsWithoutImprovement) {
+    while (counter++ < kMaxIterationsWithoutImprovement) {
       Matrix local_pheromone_update(size, std::vector<double>(size, 0.0));
       CreateAnts();
+
 
       for (auto &ant : ants_) {
         while (ant.can_continue)
           ant.MakeChoice(graph_, pheromone_, kAlpha_, kBeta_);
 
-        auto ant_path = ant.path;
-        if (ant_path.vertices.size() >= size) {
-          if (path.distance > ant.path.distance) {
-            path = std::move(ant.path);
-            counter = 0;
+        auto path_ant = ant.path;
+        
+        if (path_ant.vertexes.size() == size) {
+          if (path_res.distance > path_ant.distance) {
+            if (CheckIsAllVertexes(path_ant.vertexes)) {
+              path_res = std::move(ant.path);
+              counter = 0;
+            }
           }
-
-          for (std::size_t v = 0; v != ant_path.vertices.size() - 1; ++v) {
-            local_pheromone_update[ant_path.vertices[v]-1][ant_path.vertices[v + 1]-1] += kQ_ / ant_path.distance;
-            // printf("%f ", ant_path.distance);
-          }
-          // printf("\n\n");
-            
+          for (std::size_t v = 0; v != path_ant.vertexes.size() - 1; ++v)
+            local_pheromone_update[path_ant.vertexes[v]-1][path_ant.vertexes[v + 1]-1] += kQ_ / path_ant.distance;
         }
   
-        printf("ant_path = %f | ", ant.path.distance);
-        printf("path = %f \n", path.distance);
+
+        // printf("path_ant = %.f | ", ant.path.distance);
+        // printf("path = %.f \n", path_res.distance);
+
+        // for (size_t i = 0; i < path_ant.vertexes.size(); i++) {
+        //   printf("%lu ", path_ant.vertexes[i]);
+        // }
+        // printf("\n");
+
+        // for (size_t i = 0; i < path_res.vertexes.size(); i++) {
+        //   printf("%lu ", path_res.vertexes[i]);
+        // }
+        // printf("\n");
+
         
       }
+
       UpdateGlobalPheromone(local_pheromone_update);
+      
+      
+      // printf("MAF_MAF 2\n");
     }
 
-    
-  }
-  return path;
-}
 
+  }
+
+  if (path_res.vertexes.size() < size) {
+    path_res.vertexes.clear();
+    path_res.distance = 0;
+    fprintf(stderr, "usage: there is no solution to this graph\n");
+  }
+  return path_res;
+}
 } // namespace s21

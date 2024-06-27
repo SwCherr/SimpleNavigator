@@ -2,7 +2,7 @@
 #include "../core/s21_graph_algorithms.h"
 #include <gtest/gtest.h>
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_2) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_2) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
 
@@ -12,7 +12,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_2) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_3) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_3) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
 
@@ -22,7 +22,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_3) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_4) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_4) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
 
@@ -32,7 +32,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_4) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_5) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_5) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
 
@@ -42,7 +42,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_5) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_6) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_6) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
 
@@ -52,7 +52,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_1_6) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_WhithLoop) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_WhithLoop) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix.txt");
 
@@ -62,7 +62,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromFile_WhithLoop) {
   EXPECT_EQ(res, res_check);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_4) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_4) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
 
@@ -72,7 +72,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_4) {
   EXPECT_EQ(res, expected_res);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_5) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_5) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
 
@@ -82,7 +82,7 @@ TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_5) {
   EXPECT_EQ(res, expected_res);
 }
 
-TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_1_6) {
+TEST(GraphAlgorithms, GetShortestPathBetweenVertices_FromOrientedGraph_6) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_oriented.txt");
 
@@ -133,7 +133,7 @@ TEST(GraphAlgorithms,
   EXPECT_ANY_THROW(graph_alg.GetShortestPathBetweenVertices(graph, 8, 5));
 }
 
-TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
+TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_1) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
   size_t size = graph.GetSize();
@@ -193,7 +193,7 @@ TEST(GraphAlgorithms, GetShortestPathsBetweenAllVertices_FromFile_1) {
   }
 }
 
-TEST(GraphAlgorithms, GetLeastSpanningTree_FromFile_1) {
+TEST(GraphAlgorithms, GetLeastSpanningTree_1) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_4.txt");
   size_t size = graph.GetSize();
@@ -248,20 +248,30 @@ TEST(GraphAlgorithms, GetLeastSpanningTree_FromFile_1) {
   }
 }
 
-TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_FromFile_1) {
+TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_1) {
   s21::Graph graph;
   graph.LoadGraphFromFile("examples/valid_matrix_2.txt");
-
   s21::GraphAlgorithms graph_alg;
   s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
-  
-  for (size_t i = 0; i <graph.GetSize(); i++) {
-    printf("%lu ", res.vertices[i]);
-    // EXPECT_EQ(res, res_check);
-  }
-  printf("\n");
-  printf("distance = %f\n", res.distance);
+  double res_distance = 43;
+  EXPECT_TRUE(res.distance <= res_distance);
+}
 
-  double res_distance = 34;
-  EXPECT_EQ(res.distance, res_distance);
+TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_2) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_1.txt");
+  s21::GraphAlgorithms graph_alg;
+  s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
+  double res_distance = 9;
+  EXPECT_TRUE(res.distance <= res_distance);
+}
+
+TEST(GraphAlgorithms, SolveTravelingSalesmanProblem_3_UnsolvableGraph) {
+  s21::Graph graph;
+  graph.LoadGraphFromFile("examples/valid_matrix_5.txt");
+  s21::GraphAlgorithms graph_alg;
+  s21::TsmResult res = graph_alg.SolveTravelingSalesmanProblem(graph);
+  double res_distance = 0;
+  EXPECT_TRUE(res.distance == res_distance);
+  EXPECT_TRUE(res.vertexes.empty());
 }

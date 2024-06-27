@@ -6,13 +6,13 @@
 
 namespace s21 {
 struct TsmResult {
-  std::vector<std::size_t> vertices;    // массив с искомым маршрутом (с порядком обхода вершин).
-  double distance = 0;              // длина этого маршрута
+  std::vector<std::size_t> vertexes;
+  double distance = 0;
 };
 
 struct Ant {
   using Matrix = std::vector<std::vector<double>>;
-  explicit Ant(std::size_t start_vertex = 0) : start_location(start_vertex){}; //// explicit
+  explicit Ant(std::size_t start_vertex = 0) : start_location(start_vertex), current_location(start_vertex) {}; //// explicit
 
   TsmResult path;
   std::vector<std::size_t> visited;
@@ -21,8 +21,9 @@ struct Ant {
   bool can_continue = true;
 
   void MakeChoice(const Graph &g, const Matrix &p, double a, double b);
-  double getRandomChoice();
-  std::vector<std::size_t> getNeighborVertexes(const Graph &g);
+  double GetRandomChoice();
+  std::vector<std::size_t> GetNeighborVertexes(const Graph &g);
+  void ChooseNextVertex(const Graph::matrix_uint32_t m, std::vector<std::size_t> neighbors, std::vector<double> probability);
 };
 
 class AntColonyOptimization {
@@ -45,6 +46,7 @@ private:
 
   void CreateAnts();
   void UpdateGlobalPheromone(const Matrix &local_pheromone_update);
+  bool CheckIsAllVertexes(std::vector<std::size_t> vertexes);
 };
 
 } // namespace s21
